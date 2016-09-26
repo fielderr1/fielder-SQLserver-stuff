@@ -8,8 +8,8 @@ go
 declare @SQLdbrecovery nvarchar(2048),@SQLdbowner nvarchar(2048),@SQLdborphan nvarchar(256),@name sysname;
 
 Select	@SQLdbrecovery = 'alter database ',
-		@SQLdbowner = 'use ',
-		@SQLdborphan = 'use ';
+	@SQLdbowner = 'use ',
+	@SQLdborphan = 'use ';
 
 declare ServerDBSetting cursor 
 for
@@ -20,8 +20,8 @@ for
 	fetch next from ServerDBSetting into @name
 
 	Select	@SQLdbrecovery = @SQLdbrecovery  + '[' + @name + ']' + ' set recovery simple;',
-			@SQLdbowner = @SQLdbowner + '[' + @name + ']' + ' execute sp_changedbowner [sa];',
-			@SQLdborphan = @SQLdborphan + '[' + @name + ']';
+		@SQLdbowner = @SQLdbowner + '[' + @name + ']' + ' execute sp_changedbowner [sa];',
+		@SQLdborphan = @SQLdborphan + '[' + @name + ']';
 
 	while @@fetch_status = 0
 	begin
@@ -40,7 +40,7 @@ for
 
 			declare UserLogin cursor for
 
-			select '[' + name + ']' from sys.sysusers where uid . 4 and uid < 1000 and name not like '##%';
+			select '[' + name + ']' from sys.sysusers where uid > 4 and uid < 1000 and name not like '##%';
 
 			open UserLogin
 			fetch next from UserLogin into @login
@@ -57,8 +57,8 @@ for
 
 		fetch next from ServerDBsetting into @name
 		Select	@SQLdbrecovery = @SQLdbrecovery  + '[' + @name + ']' + ' set recovery simple;',
-				@SQLdbowner = @SQLdbowner + '[' + @name + ']' + ' execute sp_changedbowner [sa];',
-				@SQLdborphan = @SQLdborphan + '[' + @name + ']';
+			@SQLdbowner = @SQLdbowner + '[' + @name + ']' + ' execute sp_changedbowner [sa];',
+			@SQLdborphan = @SQLdborphan + '[' + @name + ']';
 	end
 close ServerDBsetting
 deallocate ServerDBsetting
