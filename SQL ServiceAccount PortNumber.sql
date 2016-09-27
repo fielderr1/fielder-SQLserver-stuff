@@ -60,6 +60,32 @@ execute master.dbo.sp_regread
 
 select @ServiceAccount;
 
+----or
+declare @DBEngineLogin nvarchar(128),@SQLAgentLogin nvarchar(128);
+
+execute master.dbo.xp_instance_regread
+  @RootKey = N'HKEY_LOCAL_MACHINE',
+  @Key = N'System\CurrentControlSet\services\MSSQLServer',
+  @Value_Name = N'ObjectName',
+  @Value = @DBEngineLogin output;
+  
+execute master.dbo.xp_instance_regread
+  @RootKey = N'HKEY_LOCAL_MACHINE',
+  @Key = N'System\CurrentControlSet\services\SQLServerAgent',
+  @Value_Name = N'ObjectName',
+  @Value = @SQLAgentLogin output;
+  
+select @DBEngineLogin as 'DBEngineLogin',
+       @SQLAgentLogin as 'SQLAgentLogin';
+go
+
+
+
+
+
+
+
+
 
 
 
