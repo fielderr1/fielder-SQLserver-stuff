@@ -43,7 +43,7 @@ from sys.dm_server_services as ds
 declare @ServiceAccount nvarchar(128);
 
 --default instance
-execute master.dbo.sp_regread
+execute master.dbo.xp_regread
   'HKEY_LOCAL_MACHINE',
   'System\CurrentControlSet\services\SQLSERVERAGENT',
   'ObjectName',
@@ -52,7 +52,7 @@ execute master.dbo.sp_regread
 select @ServiceAccount;
 
 --named instance
-execute master.dbo.sp_regread
+execute master.dbo.xp_regread
   'HKEY_LOCAL_MACHINE',
   'System\CurrentControlSet\services\SQLAGENT$InstanceName',
   'ObjectName',
