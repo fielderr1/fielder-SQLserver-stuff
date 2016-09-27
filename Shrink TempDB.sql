@@ -25,6 +25,17 @@ execute sp_helpdb tempdb;
 ----if replication this flush old transactions from queue backupset had captured
 --execute sp_repldone @xact_sgno = Null, @numtrans = 0, @time = 0, @reset = 1
 
+--Old syntax deprecated post 2k8
+DBCC SHRINKFILE (2,1, TRUNCATEONLY)
+GO
+BACKUP LOG <DataBase_Name>
+WITH TRUNCATE_ONLY
+GO
+DBCC SHRINKFILE (2,1, TRUNCATEONLY)
+GO
+
+
+--new syntax
 use master;
 go
 
