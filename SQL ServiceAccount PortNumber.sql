@@ -40,6 +40,7 @@ from sys.dm_server_services as ds
 --Service account, the old way, SQL is using
 declare @ServiceAccount nvarchar(128);
 
+--default instance
 execute master.dbo.sp_regread
   'HKEY_LOCAL_MACHINE',
   'System\CurrentControlSet\services\SQLSERVERAGENT',
@@ -48,6 +49,7 @@ execute master.dbo.sp_regread
   
 select @ServiceAccount;
 
+--named instance
 execute master.dbo.sp_regread
   'HKEY_LOCAL_MACHINE',
   'System\CurrentControlSet\services\SQLAGENT$InstanceName',
