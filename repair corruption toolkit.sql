@@ -17,6 +17,7 @@ dbcc checkdb [mydatabase];
 select * from msdb.dbo.suspect_pages;
 go
 
+----http://www.sqlskills.com/blogs/paul/finding-table-name-page-id/
 --Metadata: ObjectId
 dbcc traceon(3604);
 dbcc page (16,1,15295,0);
