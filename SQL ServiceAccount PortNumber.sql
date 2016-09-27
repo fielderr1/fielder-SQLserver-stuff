@@ -37,6 +37,8 @@ select  ds.servicename,
 from sys.dm_server_services as ds
 
 
+
+--stackoverflow.com/questions/7324407/get-service-account-details-of-the-agent-service
 --Service account, the old way, SQL is using
 declare @ServiceAccount nvarchar(128);
 
