@@ -21,7 +21,7 @@ where session_id = @@spid
 execute sp_readerrorlog 0,1,N'Server is listening on';
 go
 
---Service account SQL is using
+--Service account SQL is using 2k8
 select  ds.servicename,
         ds.startup_type_desc,
         ds.status_desc,
@@ -86,22 +86,9 @@ select @DBEngineLogin as 'DBEngineLogin',
        @SQLAgentStartType as 'SQLAgentStartType';
 go
 
+--another option
+Declare @Agent nvarchar(512)
 
+select @Agent = coalesce(N'SQLAgent$' + convert(sysname,serverproperty('InstanceName')),N'SQLServerAgent';
 
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
+execute master.dbo.xp_servicecontrol 'QueryState', @agent;
