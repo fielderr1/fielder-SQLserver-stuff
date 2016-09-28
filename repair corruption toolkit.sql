@@ -1,6 +1,8 @@
 use master;
 go
 
+--https://sqlperformance.com/2012/11/io-subsystem/minimize-impact-of-checkdb
+
 --all dbcc commands with help including undocumented
 dbcc traceon(2588);
 dbcee ('?');
