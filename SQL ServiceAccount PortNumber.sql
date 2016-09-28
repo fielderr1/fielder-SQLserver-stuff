@@ -61,7 +61,7 @@ execute master.dbo.xp_regread
 select @ServiceAccount;
 
 ----or
-declare @DBEngineLogin nvarchar(128),@SQLAgentLogin nvarchar(128);
+declare @DBEngineLogin nvarchar(128),@SQLAgentLogin nvarchar(128),@SQLAgentStartType varbinary(64);
 
 execute master.dbo.xp_instance_regread
   @RootKey = N'HKEY_LOCAL_MACHINE',
@@ -75,8 +75,15 @@ execute master.dbo.xp_instance_regread
   @Value_Name = N'ObjectName',
   @Value = @SQLAgentLogin output;
   
+execute master.dbo.xp_instance_regread
+  @RootKey = N'HKEY_LOCAL_MACHINE',
+  @Key = N'System\CurrentControlSet\services\SQLServerAgent',
+  @Value_Name = N'Start',    --002000 AutoMatic, 003000 Manual
+  @Value = @SQLAgentStartType output;
+  
 select @DBEngineLogin as 'DBEngineLogin',
-       @SQLAgentLogin as 'SQLAgentLogin';
+       @SQLAgentLogin as 'SQLAgentLogin',
+       @SQLAgentStartType as 'SQLAgentStartType';
 go
 
 
