@@ -55,3 +55,16 @@ set recovery full;
 go
 
 
+--file path details for dbs
+select db.name as 'dbName',mf.name as 'LogicalFileName',mf.physicalname as 'FilePath'
+from sys.databases db
+inner join sys.master_files mf on db.database_id = mf.database_id
+where db.database_id > 4 and
+      mf.type_desc = 'Log'
+      
+--shrink statements for all dbs
+
+
+
+
+
