@@ -63,6 +63,34 @@ where db.database_id > 4 and
       mf.type_desc = 'Log'
       
 --shrink statements for all dbs
+declare @SQL varchar (4000);
+
+Select '--dbName ' + char(13) + char(10) +
+'use master;'  + char(13) + char(10) +
+'go '  + char(13) + char(10) +
+'alter database ' + db.name + ' set recovery simple;' + char(13) + char(10) +
+'go ' + char(13) + char(10) + char(13) + char(10) +
+'use ' db.name + ';' + char(13) + char(10) +
+'go '  + char(13) + char(10) +
+'chekcpoint; '  + char(13) + char(10) +
+ 'go '  + char(13) + char(10) +
+'chekcpoint; '  + char(13) + char(10) +
+'go '  + char(13) + char(10) +
+'dbcc shfrinkfile (' + mf.Name + ',1 );' + char(13) + char(10) +
+'dbcc shfrinkfile (' + mf.Name + ',1 );' + char(13) + char(10) +
+'execute sp_helpdb ' + db.Name + ';' + char(13) + char(10) +
+'dbcc shfrinkfile (' + mf.Name + ',1 );' + char(13) + char(10) +
+'dbcc shfrinkfile (' + mf.Name + ',1 );' + char(13) + char(10) + char(13) + char(10) +
+'use master;'  + char(13) + char(10) +
+'go '  + char(13) + char(10) +
+'alter database ' + db.name + ' set recovery full;' + char(13) + char(10) +
+'go ' + char(13) + char(10) + char(13) + char(10)
+from sys.databases db
+inner join sys.master_files mf on db.database_id = mf.database_id
+where db.database_id > 4
+and mf.type_desc = 'Log'
+order by db.Name asc;
+
 
 
 
