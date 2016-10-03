@@ -1,0 +1,5 @@
+select @@ServerName,
+    case when ebabled = 1 then 1 else 0 end as 'OneJob'
+    from msdb.dbo.sysjobs
+    where name = 'shceduled'
+    
