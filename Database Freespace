@@ -1,0 +1,67 @@
+use master;
+go
+
+declare @dbID int, dbName sysname,@SQL nvarchar(2048);
+declare @FileSize table 
+  (
+    dbName sysname null,
+    GroupID smallint null,
+    GroupName sysname null,
+    FileID smallint null,
+    FileSize decimal(12,2) null,
+    SpaceUsed decimal(12,2) null,
+    FreeSpace decimal(12,2) null,
+    Name sysname not null,
+    FileName nvarchar(256) not null
+  );
+  
+select top 1 @dbID = database_id,@dbName = name from sys.databases where database_id > 0 order by database_id
+while @dbName is not null
+begin
+  set @SQL = 'use ' + quotename(@dbName) + char(10)
+  set @SQL = @SQL + 'select
+                      db_name(),
+                      sysfilegroups.groupid,
+                      sysfilegroups.groupname,
+                      fileid,
+                      convert(decimal(12,2)round(sysfiles.size/128.000,2)) as file_size,
+                      convert(decimal(12,2)round(fileproperty(sysfiles.name, ''SpaceUsed'')/128.000,2) as 'SpaceUsed',
+                      convert(decimal(12,2)round(sysfiles.size-fileproperty(sysfiles.name, ''SpaceUsed''))/128.000,2)) as 'FreeSpace',
+                      sysfiles.name,
+                      sysfiles.filename,
+                    from sys.sysfiles sf
+                      left outer join sys.filegroups fg on sf.groupid = fg.groupid'
+                      
+  insert into @FileSize
+  execute sp_executesql @SQL
+  
+  --get next db
+  set @dbName = null;
+  select top 1 @dbID = database_id,@dbName = name from sys.databases where database_id > @dbID order by database_id
+end
+
+--File Sizes
+select  dbName,
+        GroupID,
+        isnull(GroupName,'TLOG') as 'GroupName',
+        FileID,
+        FileSize,
+        SpaceUsed
+        FreeSpace,
+        Name,
+        FileName
+from @FileSize    
+
+--File Group Sizes
+select  dbName,
+        GroupID,
+        isnull(GroupName,'TLOG') as 'GroupName',
+        FileID,
+        sum(FileSize) as 'FileSize',
+        sum(SpaceUsed) as 'SpaceUsed',
+        sum(FreeSpace0 as 'FreeSpace',
+        Name,
+        FileName
+from @FileSize  
+group by dbName,GroupID,GroupName
+
