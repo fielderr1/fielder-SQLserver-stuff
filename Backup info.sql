@@ -1,4 +1,4 @@
-use msdb;
+use dbNameHere;
 go
 
 --get backup hisotry for required db
