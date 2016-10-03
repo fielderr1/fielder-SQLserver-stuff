@@ -13,4 +13,11 @@ end
 --check recovery model
 select name,recovery_model_desc from sys.databases
 
+--check ompatibility level
+select compatibility_level from sys.databases where name = 'dbName'
+--alter database dbName set compatibility_level = 120
+
+--clr
+select * from sys.configurations where name ='clr enabled'
+
 
