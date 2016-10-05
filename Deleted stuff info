@@ -1,0 +1,47 @@
+----http://www.mssqltips.com/sqlservertip/3090/how-to-find-user-who-ran-drop-or-delete-statements-on-your-sql-server-objects/
+use master;
+go
+
+--find deleted transactions and who deleted them
+--1.  ID deleted transactions
+select [Transaction ID],Operation,Context,AllocUnitName from fn_dblog(null,null) where Operation = 'LOP_DELETE_ROWS'
+
+--2.  Use the transactionID from the above
+select Operation,
+       [Transaction ID],
+       [Begin Time],
+       [Transaction Name],
+       [Transaction SID]
+       
+from fn_dblog(null,null) 
+
+where [Transaction ID] = '0000:000004ce' and
+      Operation = 'LOP_BEGIN_XACT'
+      
+--3.  use transaction SID to ID user of the delete operation
+use master;
+go
+
+select suser_sname(0x010500000000005150000009F11B);
+
+--find deleted tables and objects
+--1.  ID deleted Db objects
+select Operation,
+       [Transaction ID],
+       [Transaction SID],
+       [Transaction Name],
+       [Begin Time],
+       [SPID]
+       Description
+
+from fn_dblog(null,null) 
+
+where [Transaction Name] = 'DROPOBJ'
+
+--2.  use transaction SID to ID user of the delete operation
+use master;
+go
+
+select suser_sname(0x010500000000005150000009F11B);
+
+
