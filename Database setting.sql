@@ -20,4 +20,9 @@ select compatibility_level from sys.databases where name = 'dbName'
 --clr
 select * from sys.configurations where name ='clr enabled'
 
+--Service Broker
+select name,is_broker_enabled from sys.databases
+
+alter database mydatabase set enable_broker with rollback immediate;
+
 
