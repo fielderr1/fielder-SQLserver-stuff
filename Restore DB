@@ -4,6 +4,9 @@ alter database coursemill_prod set single_user with rollback immediate;
 
 restore database coursemill_prod      
 from disk = 'Z:\BackupFromProd\Coursemill\coursemill_prod_backup.bak'
-with recovery,
+with file = 1,
 	move 'coursemill' to 'I:\G4ICS_DB\G4ICS_Import_mdf_01\coursemill.mdf',    
-	move 'coursemill_log' to 'I:\G4ICS_DB\G4ICS_Import_log_01\coursemill_log.ldf';  
+	move 'coursemill_log' to 'I:\G4ICS_DB\G4ICS_Import_log_01\coursemill_log.ldf',
+	recovery,
+	replace,
+	stats = 10;  
