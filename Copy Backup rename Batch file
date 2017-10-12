@@ -1,0 +1,10 @@
+:Variables
+SET DatabaseBackupPath=\\VSWCRPUNVDB01\Backups
+
+echo off
+echo
+FOR /F "delims=|" %%I IN ('DIR "%DatabaseBackupPath%\*.bak" /B /O:D') DO SET NewestFile=%%I
+copy "%DatabaseBackupPath%\%NewestFile%" "Z:\BackupFromProd\Coursemill\"
+
+del "Z:\BackupFromProd\Coursemill\coursemill_prod_backup.bak"
+ren Z:\BackupFromProd\Coursemill\%NewestFile% "coursemill_prod_backup.bak"
