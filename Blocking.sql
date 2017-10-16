@@ -10,7 +10,7 @@ dbcc inputbuffer(88)
 
 
 --blocking
-select * from sys.dm.exec_requests where blocking_session_id <> 0;
+select * from sys.dm_exec_requests where blocking_session_id <> 0;
 
 select session_id,wait_duration_ms,wait_type,blocking_session_id
 from sys.dm_os_waiting_tasks
