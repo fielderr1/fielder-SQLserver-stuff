@@ -1,0 +1,29 @@
+create function dbo.fnValidateUserTimeEntry (@ipJobStartTime int)
+returns bit
+with execute as caller
+as
+
+/**********************************************************************************  
+-- user scalar function  dbo.fnValidateUserTimeEntry
+-- Author    RSF   
+-- Date      07/18/2007
+-- Description   validates input integer time entry for a scheduled job
+-- Change Hisory    
+-- initial version
+--valid interger 0 - 125959
+**********************************************************************************/ 
+
+begin
+	declare @StartTimeValid bit;
+
+	if (@ipJobStartTime >= 0) and (@ipJobStartTime <= 235959)
+		begin
+			set @StartTimeValid = 1;
+		end
+	else 
+		begin
+			set @StartTimeValid = 0;
+		end
+	return(@StartTimeValid);
+end;
+go
