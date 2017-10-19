@@ -1,6 +1,18 @@
 use TempDB;
 go
 
+/* Shows availabe tempdb space*/
+SELECT
+(SUM(unallocated_extent_page_count)*1.0/128)/1000 AS [free space in GB]
+FROM tempdb.sys.dm_db_file_space_usage
+/* Shows long running trans if any */
+SELECT
+transaction_id
+FROM
+sys.dm_tran_active_snapshot_database_transactions
+ORDER BY
+elapsed_time_seconds DESC;
+
 execute sp_helpdb tempdb;
 
 checkpoint;
