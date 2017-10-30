@@ -36,6 +36,9 @@ execute sp_helpdb tempdb;
 --select log_reuse_wait_desc, is_cdc_enabled, is_broker_enabled, is_published,is_subscribed,is_merge_published, is_distributor, * from sys.databases
 ----if replication this flush old transactions from queue backupset had captured
 --execute sp_repldone @xact_sgno = Null, @numtrans = 0, @time = 0, @reset = 1
+----availability_replica idicates AG 
+DBCC sqpperf(logspace)  --confirms use of space reserved 
+DBCC loginfo --status 2
 
 --Old syntax deprecated post 2k8
 DBCC SHRINKFILE (2,1, TRUNCATEONLY)
