@@ -37,7 +37,7 @@ execute sp_helpdb tempdb;
 ----if replication this flush old transactions from queue backupset had captured
 --execute sp_repldone @xact_sgno = Null, @numtrans = 0, @time = 0, @reset = 1
 ----availability_replica idicates AG 
-DBCC sqpperf(logspace)  --confirms use of space reserved 
+DBCC sqlperf(logspace)  --confirms use of space reserved 
 DBCC loginfo --status 2
 
 --Old syntax deprecated post 2k8
