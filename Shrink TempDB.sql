@@ -82,7 +82,7 @@ Select '--dbName ' + char(13) + char(10) +
 'go '  + char(13) + char(10) +
 'alter database ' + db.name + ' set recovery simple;' + char(13) + char(10) +
 'go ' + char(13) + char(10) + char(13) + char(10) +
-'use ' db.name + ';' + char(13) + char(10) +
+'use ' + db.name + ';' + char(13) + char(10) +
 'go '  + char(13) + char(10) +
 'chekcpoint; '  + char(13) + char(10) +
  'go '  + char(13) + char(10) +
