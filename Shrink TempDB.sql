@@ -37,8 +37,20 @@ execute sp_helpdb tempdb;
 ----if replication this flush old transactions from queue backupset had captured
 --execute sp_repldone @xact_sgno = Null, @numtrans = 0, @time = 0, @reset = 1
 ----availability_replica idicates AG 
+
+--AG info if lop reuse is availability_replica 
+select * from sys.dm_hadr_databse_replica_states --info on state of AG low_Watermarkfor_ghosts
+
+--check for open transactions of every readable secondary databases
+--long operation on 2ndary will block ghost cleanup; true for both asynchronous and synchronous and blocks log truncation on primary
+--https://troubleshootingsql.com/2014/07/25/chasing-the-ghost-cleanup-in-an-availability-group/
+--alwayson_health extended events session
+
+
+
+
 DBCC sqlperf(logspace)  --confirms use of space reserved 
-DBCC loginfo --status 2
+DBCC loginfo --status 2; undocumented command shows VLFs 2 means active not available for reuse
 
 --Old syntax deprecated post 2k8
 DBCC SHRINKFILE (2,1, TRUNCATEONLY)
@@ -48,6 +60,7 @@ WITH TRUNCATE_ONLY
 GO
 DBCC SHRINKFILE (2,1, TRUNCATEONLY)
 GO
+
 
 
 --new syntax
