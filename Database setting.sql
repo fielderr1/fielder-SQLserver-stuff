@@ -25,4 +25,19 @@ select name,is_broker_enabled from sys.databases
 
 alter database mydatabase set enable_broker with rollback immediate;
 
+--enable Contained DBs
+Use master
+GO
+sp_configure 'show advanced options', 1
+GO
+RECONFIGURE WITH OVERRIDE
+GO 
+sp_configure 'contained database authentication', 1
+GO
+RECONFIGURE WITH OVERRIDE
+GO 
+sp_configure 'show advanced options', 0 
+GO
+RECONFIGURE WITH OVERRIDE 
+GO
 
