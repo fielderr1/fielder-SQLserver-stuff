@@ -1,0 +1,7 @@
+SET ARITHABORT OFF 
+SET ANSI_WARNINGS OFF
+
+SELECT COALESCE(dividend / NULLIF(divisor,0), 0) FROM sometable
+
+ISNULL( (SUM(foo) / NULLIF(SUM(bar),0) ), 0) AS Avg
+
