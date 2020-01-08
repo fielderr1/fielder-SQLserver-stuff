@@ -1,5 +1,5 @@
 /***************************************************
-EXEC dbo.pDDLCreateUTDTable CP_Marketing_un, 'Tami Droste'
+EXEC dbo.pDDLCreateUTDTable CP_Marketing_un, 'RSF'
 
 Changes I would still like to make:
 Output Primary Key
