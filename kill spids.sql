@@ -3,6 +3,12 @@ go
 
 execute sp_who2
 
+KILL 54;  
+KILL 54 WITH STATUSONLY;  
+GO  
+--This is the progress report.  
+spid 54: Transaction rollback in progress. Estimated rollback completion: 80% Estimated time left: 10 seconds.
+
 declare @dbName sysname,@spid int, @SQL nvarchar(1024)
 
 ----isolate for a specific db
